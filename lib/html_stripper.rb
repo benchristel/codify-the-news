@@ -1,5 +1,3 @@
-require 'nokogiri'
-
 class HtmlStripper
   def self.strip string
     string = string.gsub(/<(script|style).*?>.*?<\/(script|style)>/m) { |match|
