@@ -751,5 +751,6 @@ Lantern.mod(function($api, $) {
 Lantern.$noConflict = $
 var $ = Lantern
 `
-
+# puts content
+# puts HtmlStripper.strip(content)
 puts IdentifierReplacer.replace code, HtmlStripper.strip(content).split(/\s+/)

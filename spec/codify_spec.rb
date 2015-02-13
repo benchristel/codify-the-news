@@ -6,11 +6,19 @@ describe HtmlStripper do
   end
 
   it 'removes scripts' do
-    expect(HtmlStripper.strip('before<script type="text/javascript">function(){}</script>after')).to eq 'before after'
+    expect(HtmlStripper.strip('before<script src="foo"></script>after')).to eq 'before after'
+  end
+
+  it 'looks for the closest end tag to the start tag' do
+    expect(HtmlStripper.strip('before<script></script>after</script>')).to eq 'before after '
   end
 
   it 'removes scripts without a type' do
     expect(HtmlStripper.strip('before<script>function(){}</script>after')).to eq 'before after'
+  end
+
+  it 'removes scripts with no content' do
+    expect(HtmlStripper.strip('before<script src="foo"></script>after')).to eq 'before after'
   end
 
   it 'removes multiline scripts' do
@@ -43,6 +51,15 @@ after#
 
   it 'removes html tags' do
     expect(HtmlStripper.strip('a<p>paragraph</p>here')).to eq 'a paragraph here'
+  end
+
+
+  it 'self closing tags' do
+    expect(HtmlStripper.strip('something<p/>else')).to eq 'something else'
+  end
+
+  it 'it removes comments' do
+    expect(HtmlStripper.strip('What is<!--<g:plusone size="medium"></g:plusone>-->the haps')).to eq 'What is the haps'
   end
 
   it 'collapses any amount of whitespace into a single space' do
